@@ -1,4 +1,6 @@
 from Loaders import *
+import datetime as dt
+
 
 def distBetween(distanceData, addressData, address1, address2):
     addressIndex1 = addressData.index(address1)
@@ -7,7 +9,7 @@ def distBetween(distanceData, addressData, address1, address2):
     return float(distanceData[addressIndex1][addressIndex2])
 
 
-'''def nearestNeighbors(truck, distances, addresses):
+def nearestNeighbors(truck, distances, addresses):
     address_visited = ''
     packagesToDeliver = truck.getPackagesOnTruck()
     addressDeliveryList = []
@@ -30,10 +32,10 @@ def distBetween(distanceData, addressData, address1, address2):
         setattr(truck, 'location', address_visited)
 
     nearestNeighborList.append(['HUB', distBetween(distances, addresses, truck.location, 'HUB')])
-    nearestNeighborList.insert(0, ['HUB', 0.0])
-    return nearestNeighborList'''
+    return nearestNeighborList
 
-def nearestNeighbors(truck, distances, addresses):
+
+'''def nearestNeighbors(truck, distances, addresses):
     address_visited = ''
     packagesToDeliver = truck.getPackagesOnTruck()
     addressDeliveryList = []
@@ -55,7 +57,31 @@ def nearestNeighbors(truck, distances, addresses):
         setattr(truck, 'location', address_visited)
 
     visited_list.append('HUB')
-    return visited_list
+    return visited_list'''
 
-# def truckDeliverPackages(truck, deliveryStartTime):
 
+def truckDeliverPackages(truck, currentTime, packageHashMap, endTime=None):
+    packageList = truck.getPackagesOnTruck()
+    orderedAddressList = truck.getAddressList()
+    currentLocation = truck.location
+    totalMileage = truck.miles
+
+    # Update delivery status of each package to "en route" once delivery has started.
+    for package in packageList:
+        id = package.id
+        packageHashMap.updateDeliveryStatus(id, False)
+
+    # Deliver each package to it's address along the designated route.
+    for address in orderedAddressList:
+        # Use timedelta to determine how much time has passed while going from previous to current address.
+        currentTime = currentTime + dt.timedelta(hours=(address[1] / 18))
+        # Track total milage by continually adding
+        totalMileage += address[1]
+        # If no more packages,
+        if len(packageList) == 0:
+            print(f'Current Address: {address[0]}')
+            break
+        for package in packageList:
+            if package.address == address[0]:
+                packageList.remove(package)
+                packageHashMap.updateDeliveryStatus(package.id, True, currentTime)

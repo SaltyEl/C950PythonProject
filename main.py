@@ -18,12 +18,13 @@ truck1.loadTruck(packageData, [1, 4, 10, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22,
 truck2.loadTruck(packageData, [2, 3, 5, 6, 7, 8, 9, 12, 18, 25, 28, 32, 33, 36, 37, 38])  # Will leave at 9:05AM.
 truck3.loadTruck(packageData, [23, 24, 26, 27, 29, 30, 31, 35])  # Will leave after first truck gets back.
 
-setattr(truck1, 'packageList', nearestNeighbors(truck1, distanceData, addressData))
-setattr(truck2, 'packageList', nearestNeighbors(truck2, distanceData, addressData))
-setattr(truck3, 'packageList', nearestNeighbors(truck3, distanceData, addressData))
+setattr(truck1, 'orderedAddresses', nearestNeighbors(truck1, distanceData, addressData))
+setattr(truck2, 'orderedAddresses', nearestNeighbors(truck2, distanceData, addressData))
+setattr(truck3, 'orderedAddresses', nearestNeighbors(truck3, distanceData, addressData))
 
 '''time = dt.timedelta(hours=9, minutes=5)
 print(time)'''
+print(getattr(truck1, 'orderedAddresses'))
 
 userCommand = int(input('''Please select a number from the following options: 
 1. Print All Package Status and Total Mileage
