@@ -60,11 +60,14 @@ def nearestNeighbors(truck, distances, addresses):
     return visited_list'''
 
 
-def truckDeliverPackages(truck, currentTime, packageHashMap, endTime=None):
+def truckDeliverPackages(truck, startTime, packageHashMap, timeCheck=None):
     packageList = truck.getPackagesOnTruck()
     orderedAddressList = truck.getAddressList()
-    currentLocation = truck.location
-    totalMileage = truck.miles
+    currentTime = startTime
+
+    # If time is checked and is earlier than the start time, return packageHashMap without any changes.
+    if timeCheck is not None and timeCheck <= startTime:
+        return packageHashMap
 
     # Update delivery status of each package to "en route" once delivery has started.
     for package in packageList:
@@ -75,8 +78,12 @@ def truckDeliverPackages(truck, currentTime, packageHashMap, endTime=None):
     for address in orderedAddressList:
         # Use timedelta to determine how much time has passed while going from previous to current address.
         currentTime = currentTime + dt.timedelta(hours=(address[1] / 18))
-        # Track total milage by continually adding
-        totalMileage += address[1]
+
+        # If time checked is greater than or equal to the current
+        # time during delivery, then we return the packageHashMap for
+        # evaluation of packages current delivery status.
+        if timeCheck is not None and timeCheck >= currentTime:
+            return packageHashMap
         # If no more packages,
         if len(packageList) == 0:
             print(f'Current Address: {address[0]}')
@@ -85,3 +92,18 @@ def truckDeliverPackages(truck, currentTime, packageHashMap, endTime=None):
             if package.address == address[0]:
                 packageList.remove(package)
                 packageHashMap.updateDeliveryStatus(package.id, True, currentTime)
+
+    return packageHashMap
+
+def distanceCoveredByTruck(truck):
+    totalDistance = 0
+
+    for address in truck.orderedAddresses:
+        totalDistance += address[1]
+
+    return totalDistance
+
+def timeTruckIsOut(truck):
+    distance = distanceCoveredByTruck(truck)
+    truckSpeed = 18
+    return dt.timedelta(hours=distance / truckSpeed)

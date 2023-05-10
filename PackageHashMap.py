@@ -60,12 +60,12 @@ class PackageHashMap:
         # Add updated package back to packageHashMap
         self.add(key, package)
 
-
     # This method prints all key-value pairs located in the HashMap instance.
     def printAll(self):
+        print("ID | Address | Deadline | City | Postal Code | Weight | Delivery Status")
         for bucket in range(len(self.map)):
             for pair in self.map[bucket]:
-                print(f'Key: {pair[0]}, Value: {pair[1]}')
+                print(pair[1])
 
     def printBucket(self, bucket):
         for pair in self.map[bucket]:

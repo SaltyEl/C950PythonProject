@@ -22,9 +22,12 @@ setattr(truck1, 'orderedAddresses', nearestNeighbors(truck1, distanceData, addre
 setattr(truck2, 'orderedAddresses', nearestNeighbors(truck2, distanceData, addressData))
 setattr(truck3, 'orderedAddresses', nearestNeighbors(truck3, distanceData, addressData))
 
-'''time = dt.timedelta(hours=9, minutes=5)
-print(time)'''
+
 print(getattr(truck1, 'orderedAddresses'))
+print(getattr(truck2, 'orderedAddresses'))
+print(getattr(truck3, 'orderedAddresses'))
+
+print(dt.timedelta(hours=1.9/18))
 
 userCommand = int(input('''Please select a number from the following options: 
 1. Print All Package Status and Total Mileage
@@ -36,7 +39,25 @@ Enter a command (1, 2, 3, or 4): '''))
 
 match userCommand:
     case 1:
-        print("Case 1")
+        truck1StartTime = dt.timedelta(hours=8)
+        truck2StartTime = dt.timedelta(hours=9, minutes=5)
+        truck3StartTime = timeTruckIsOut(truck1) + truck1StartTime
+
+        truck1Distance = distanceCoveredByTruck(truck1)
+        truck2Distance = distanceCoveredByTruck(truck2)
+        truck3Distance = distanceCoveredByTruck(truck3)
+
+        totalDistance = truck3Distance + truck2Distance + truck1Distance
+
+        truckDeliverPackages(truck1, truck1StartTime, packageData)
+        truckDeliverPackages(truck2, truck2StartTime, packageData)
+        truckDeliverPackages(truck3, truck3StartTime, packageData)
+
+        packageData.printAll()
+        print(truck3StartTime)
+        print(totalDistance)
+
+
     case 2:
         print("Case 2")
     case 3:

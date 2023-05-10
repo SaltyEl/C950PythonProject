@@ -12,4 +12,7 @@ class Package:
         self.deliveryStatus = deliveryStatus
 
     def __str__(self):
-        return f'{self.id} | {self.address} | {self.city} | {self.state} | {self.zip} | {self.time} | {self.weight} | {self.instructions}'
+        if self.timeDelivered != None:
+            return f'{self.id} | {self.address} | {self.time} | {self.city} | {self.zip} | {self.weight} | {self.deliveryStatus} - {self.timeDelivered}'
+        else:
+            return f'{self.id} | {self.address} | {self.time} | {self.city} | {self.zip} | {self.weight} | {self.deliveryStatus}'
