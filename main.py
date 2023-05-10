@@ -22,13 +22,6 @@ setattr(truck1, 'orderedAddresses', nearestNeighbors(truck1, distanceData, addre
 setattr(truck2, 'orderedAddresses', nearestNeighbors(truck2, distanceData, addressData))
 setattr(truck3, 'orderedAddresses', nearestNeighbors(truck3, distanceData, addressData))
 
-
-print(getattr(truck1, 'orderedAddresses'))
-print(getattr(truck2, 'orderedAddresses'))
-print(getattr(truck3, 'orderedAddresses'))
-
-print(dt.timedelta(hours=1.9/18))
-
 userCommand = int(input('''Please select a number from the following options: 
 1. Print All Package Status and Total Mileage
 2. Get a Single Package Status with a Time
@@ -53,9 +46,8 @@ match userCommand:
         truckDeliverPackages(truck2, truck2StartTime, packageData)
         truckDeliverPackages(truck3, truck3StartTime, packageData)
 
+        print(f'The total mileage traveled for all trucks is {totalDistance} miles')
         packageData.printAll()
-        print(truck3StartTime)
-        print(totalDistance)
 
 
     case 2:

@@ -76,6 +76,7 @@ def truckDeliverPackages(truck, startTime, packageHashMap, timeCheck=None):
 
     # Deliver each package to it's address along the designated route.
     for address in orderedAddressList:
+        packagesToRemove = []
         # Use timedelta to determine how much time has passed while going from previous to current address.
         currentTime = currentTime + dt.timedelta(hours=(address[1] / 18))
 
@@ -86,12 +87,15 @@ def truckDeliverPackages(truck, startTime, packageHashMap, timeCheck=None):
             return packageHashMap
         # If no more packages,
         if len(packageList) == 0:
-            print(f'Current Address: {address[0]}')
             break
         for package in packageList:
             if package.address == address[0]:
-                packageList.remove(package)
+                packagesToRemove.append(package)
                 packageHashMap.updateDeliveryStatus(package.id, True, currentTime)
+
+        for package in packagesToRemove:
+            packageList.remove(package)
+
 
     return packageHashMap
 
