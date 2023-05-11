@@ -16,17 +16,18 @@ truck2 = Truck("Truck 2")
 truck3 = Truck("Truck 3")
 
 truck1.loadTruck(packageData, [8, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22, 30, 34, 37, 39, 40])  # Will leave at 8:00AM.
-truck2.loadTruck(packageData, [1, 3, 5, 6, 7, 9, 12, 18, 25, 28, 29, 31, 32, 36, 38])  # Will leave at 9:05AM.
-truck3.loadTruck(packageData, [10, 2, 4, 23, 24, 26, 27, 33, 35])  # Will leave after first truck gets back.
+truck2.loadTruck(packageData, [1, 3, 5, 6, 7, 12, 18, 25, 28, 29, 31, 32, 36, 38])  # Will leave at 9:05AM.
+truck3.loadTruck(packageData, [10, 2, 4, 9, 23, 24, 26, 27, 33, 35])  # Will leave after first truck gets back.
 
 # Assign each package on the truck to the truck.
 truck1.assignPackagesToTruck(packageData)
 truck2.assignPackagesToTruck(packageData)
 truck3.assignPackagesToTruck(packageData)
 
-setattr(truck1, 'orderedAddresses', nearestNeighbors(truck1, distanceData, addressData))
-setattr(truck2, 'orderedAddresses', nearestNeighbors(truck2, distanceData, addressData))
-setattr(truck3, 'orderedAddresses', nearestNeighbors(truck3, distanceData, addressData))
+# Set the order that trucks will travel to each address using nearestNeighbors algorithm.
+truck1.orderedAddresses = nearestNeighbors(truck1, distanceData, addressData)
+truck2.orderedAddresses = nearestNeighbors(truck2, distanceData, addressData)
+truck3.orderedAddresses = nearestNeighbors(truck3, distanceData, addressData)
 
 userCommand = int(input('''Please select a number from the following options: 
 1. Print All Package Status and Total Mileage
