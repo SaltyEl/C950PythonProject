@@ -1,11 +1,12 @@
 from PackageHashMap import PackageHashMap
 
 class Truck:
-    def __init__(self):
+    def __init__(self, name):
         self.packageList = []
         self.miles = 0
         self.location = 'HUB'
         self.orderedAddresses = []
+        self.name = name
 
     def loadTruck(self,packageMap,numbers):
         for number in numbers:
@@ -21,5 +22,8 @@ class Truck:
     def getPackagesOnTruck(self):
         return self.packageList
 
-
+    def assignPackagesToTruck(self, packageData):
+        for package in self.packageList:
+            package.setTruckName(self)
+            packageData.add(package.id, package)
 

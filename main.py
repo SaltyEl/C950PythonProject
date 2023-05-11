@@ -2,6 +2,7 @@ from Truck import Truck
 from Loaders import *
 from Helpers import *
 import datetime as dt
+from PackageHashMap import PackageHashMap
 
 # Create a list of distance data.
 distanceData = loadDistanceData("CSVFiles/DistanceFile.csv")
@@ -10,13 +11,18 @@ packageData = loadPackageData("CSVFiles/PackageFile.csv")
 # Create a list of address data.
 addressData = loadAddressData("CSVFiles/DistanceFile.csv")
 
-truck1 = Truck()
-truck2 = Truck()
-truck3 = Truck()
+truck1 = Truck("Truck 1")
+truck2 = Truck("Truck 2")
+truck3 = Truck("Truck 3")
 
-truck1.loadTruck(packageData, [1, 4, 10, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22, 34, 39, 40])  # Will leave at 8:00AM.
-truck2.loadTruck(packageData, [2, 3, 5, 6, 7, 8, 9, 12, 18, 25, 28, 32, 33, 36, 37, 38])  # Will leave at 9:05AM.
-truck3.loadTruck(packageData, [23, 24, 26, 27, 29, 30, 31, 35])  # Will leave after first truck gets back.
+truck1.loadTruck(packageData, [8, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22, 30, 34, 37, 39, 40])  # Will leave at 8:00AM.
+truck2.loadTruck(packageData, [1, 3, 5, 6, 7, 9, 12, 18, 25, 28, 29, 31, 32, 36, 38])  # Will leave at 9:05AM.
+truck3.loadTruck(packageData, [10, 2, 4, 23, 24, 26, 27, 33, 35])  # Will leave after first truck gets back.
+
+# Assign each package on the truck to the truck.
+truck1.assignPackagesToTruck(packageData)
+truck2.assignPackagesToTruck(packageData)
+truck3.assignPackagesToTruck(packageData)
 
 setattr(truck1, 'orderedAddresses', nearestNeighbors(truck1, distanceData, addressData))
 setattr(truck2, 'orderedAddresses', nearestNeighbors(truck2, distanceData, addressData))
@@ -46,7 +52,8 @@ match userCommand:
         truckDeliverPackages(truck2, truck2StartTime, packageData)
         truckDeliverPackages(truck3, truck3StartTime, packageData)
 
-        print(f'The total mileage traveled for all trucks is {totalDistance} miles')
+        format_distance = "{:.2f}".format(totalDistance)
+        print(f'The total mileage traveled for all trucks is {format_distance} miles')
         packageData.printAll()
 
 

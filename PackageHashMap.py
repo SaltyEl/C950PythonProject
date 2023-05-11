@@ -62,7 +62,7 @@ class PackageHashMap:
 
     # This method prints all key-value pairs located in the HashMap instance.
     def printAll(self):
-        print("ID | Address | Deadline | City | Postal Code | Weight | Delivery Status")
+        print("ID | Address | Deadline | City | Postal Code | Weight | Delivery Status | Truck")
         for bucket in range(len(self.map)):
             for pair in self.map[bucket]:
                 print(pair[1])

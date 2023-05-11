@@ -12,24 +12,23 @@ def distBetween(distanceData, addressData, address1, address2):
 def nearestNeighbors(truck, distances, addresses):
     address_visited = ''
     packagesToDeliver = truck.getPackagesOnTruck()
-    addressDeliveryList = []
+    addressDeliverySet = set()
     nearestNeighborList = []
 
     for package in packagesToDeliver:
         address = getattr(package, 'address')
-        if address not in addressDeliveryList:
-            addressDeliveryList.append(address)
+        addressDeliverySet.add(address)
 
-    while len(addressDeliveryList) > 0:
+    while addressDeliverySet:
         dist_from_last = float('inf')
-        for address in addressDeliveryList:
+        for address in addressDeliverySet:
             distance = distBetween(distances, addresses, truck.location, address)
             if distance < dist_from_last:
                 dist_from_last = distance
                 address_visited = address
-        addressDeliveryList.remove(address_visited)
+        addressDeliverySet.remove(address_visited)
         nearestNeighborList.append([address_visited, dist_from_last])
-        setattr(truck, 'location', address_visited)
+        truck.location = address_visited
 
     nearestNeighborList.append(['HUB', distBetween(distances, addresses, truck.location, 'HUB')])
     return nearestNeighborList
