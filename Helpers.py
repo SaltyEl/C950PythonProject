@@ -1,3 +1,5 @@
+import sys
+
 from Loaders import *
 import datetime as dt
 
@@ -82,7 +84,8 @@ def truckDeliverPackages(truck, startTime, packageHashMap, timeCheck=None):
         # If time checked is greater than or equal to the current
         # time during delivery, then we return the packageHashMap for
         # evaluation of packages current delivery status.
-        if timeCheck is not None and timeCheck >= currentTime:
+        if timeCheck is not None and timeCheck < currentTime:
+            print(f'Operation exited at {currentTime}')
             return packageHashMap
         # If no more packages,
         if len(packageList) == 0:
@@ -110,3 +113,28 @@ def timeTruckIsOut(truck):
     distance = distanceCoveredByTruck(truck)
     truckSpeed = 18
     return dt.timedelta(hours=distance / truckSpeed)
+
+# A function to get the time that user would like to check package(s) status.
+def getUserTime():
+    # Create a while loop so that if the format is wrong the user can retry, or type 'q' to quit program.
+    while True:
+        # Use try except block to parse out a time that has been incorrectly entered.
+        try:
+            # Get user time to check
+            time = input("Please enter a time (HH:MM) or 'q' to quit: ")
+            # Parse the user input
+            if time == 'q':
+                sys.exit(0)
+            parsed_time = dt.datetime.strptime(time, '%I:%M')
+            # Store the hours
+            hours = parsed_time.hour
+            # Store the minutes
+            minutes = parsed_time.minute
+            # Return the timedelta containing the hours and minutes of the time to be checked.
+            return dt.timedelta(hours=hours, minutes=minutes)
+        # Print an error to UI if time is input incorrectly
+        except ValueError:
+            print("This format is not exceptable.")
+            continue
+
+

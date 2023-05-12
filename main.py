@@ -1,3 +1,4 @@
+import Helpers
 from Truck import Truck
 from Loaders import *
 from Helpers import *
@@ -29,6 +30,11 @@ truck1.orderedAddresses = nearestNeighbors(truck1, distanceData, addressData)
 truck2.orderedAddresses = nearestNeighbors(truck2, distanceData, addressData)
 truck3.orderedAddresses = nearestNeighbors(truck3, distanceData, addressData)
 
+# Set truck start times.
+truck1StartTime = dt.timedelta(hours=8)
+truck2StartTime = dt.timedelta(hours=9, minutes=5)
+truck3StartTime = timeTruckIsOut(truck1) + truck1StartTime
+
 userCommand = int(input('''Please select a number from the following options: 
 1. Print All Package Status and Total Mileage
 2. Get a Single Package Status with a Time
@@ -39,10 +45,6 @@ Enter a command (1, 2, 3, or 4): '''))
 
 match userCommand:
     case 1:
-        truck1StartTime = dt.timedelta(hours=8)
-        truck2StartTime = dt.timedelta(hours=9, minutes=5)
-        truck3StartTime = timeTruckIsOut(truck1) + truck1StartTime
-
         truck1Distance = distanceCoveredByTruck(truck1)
         truck2Distance = distanceCoveredByTruck(truck2)
         truck3Distance = distanceCoveredByTruck(truck3)
@@ -57,20 +59,19 @@ match userCommand:
         print(f'The total mileage traveled for all trucks is {format_distance} miles')
         packageData.printAll()
 
-
     case 2:
-        print("Case 2")
+        timeCheck = Helpers.getUserTime()
+        key = int(input("Please enter package ID: "))
+        truckDeliverPackages(truck1, truck1StartTime, packageData, timeCheck)
+        truckDeliverPackages(truck2, truck2StartTime, packageData, timeCheck)
+        truckDeliverPackages(truck3, truck3StartTime, packageData, timeCheck)
+
+        package = packageData.get(key)
+        print(package)
+
     case 3:
         print("Case 3")
     case 4:
         print("Case 4")
     case other:
         print("No case")
-
-'''time = input("Please enter a time (HH:MM): ")
-info = input("Single or all package tracking (Type \"Single\" or \"All\"): ")'''
-'''try:
-    # Parse the user input
-    parsed_time = dt.datetime.strptime(time, "%I:%M")'''
-
-
