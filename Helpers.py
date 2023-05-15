@@ -85,7 +85,6 @@ def truckDeliverPackages(truck, startTime, packageHashMap, timeCheck=None):
         # time during delivery, then we return the packageHashMap for
         # evaluation of packages current delivery status.
         if timeCheck is not None and timeCheck < currentTime:
-            print(f'Operation exited at {currentTime}')
             return packageHashMap
         # If no more packages,
         if len(packageList) == 0:
@@ -121,11 +120,11 @@ def getUserTime():
         # Use try except block to parse out a time that has been incorrectly entered.
         try:
             # Get user time to check
-            time = input("Please enter a time (HH:MM) or 'q' to quit: ")
+            time = input("Please enter a time (HH:MM - in military format) or 'q' to quit: ")
             # Parse the user input
             if time == 'q':
                 sys.exit(0)
-            parsed_time = dt.datetime.strptime(time, '%I:%M')
+            parsed_time = dt.datetime.strptime(time, '%H:%M')
             # Store the hours
             hours = parsed_time.hour
             # Store the minutes

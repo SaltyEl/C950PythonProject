@@ -35,43 +35,73 @@ truck1StartTime = dt.timedelta(hours=8)
 truck2StartTime = dt.timedelta(hours=9, minutes=5)
 truck3StartTime = timeTruckIsOut(truck1) + truck1StartTime
 
-userCommand = int(input('''Please select a number from the following options: 
-1. Print All Package Status and Total Mileage
-2. Get a Single Package Status with a Time
-3. Get All Package Status with a Time
-4. Exit the Program
+# Repeat match case until appropriate response is given by user.
+while True:
+    # Prompt user for input.
+    userCommand = int(input('''Please select a number from the following options: 
+    1. Print All Package Status and Total Mileage
+    2. Get a Single Package Status with a Time
+    3. Get All Package Status with a Time
+    4. Exit the Program
 
-Enter a command (1, 2, 3, or 4): '''))
+    Enter a command (1, 2, 3, or 4): '''))
+    # Use match case to provide user with desired information of packages / delivery.
+    match userCommand:
+        case 1:
+            # Get distances covered by each truck during delivery.
+            truck1Distance = distanceCoveredByTruck(truck1)
+            truck2Distance = distanceCoveredByTruck(truck2)
+            truck3Distance = distanceCoveredByTruck(truck3)
 
-match userCommand:
-    case 1:
-        truck1Distance = distanceCoveredByTruck(truck1)
-        truck2Distance = distanceCoveredByTruck(truck2)
-        truck3Distance = distanceCoveredByTruck(truck3)
+            # Store total distance covered by all trucks in a variable to present to user.
+            totalDistance = truck3Distance + truck2Distance + truck1Distance
 
-        totalDistance = truck3Distance + truck2Distance + truck1Distance
+            # Deliver the packages without a time constraint.
+            truckDeliverPackages(truck1, truck1StartTime, packageData)
+            truckDeliverPackages(truck2, truck2StartTime, packageData)
+            truckDeliverPackages(truck3, truck3StartTime, packageData)
 
-        truckDeliverPackages(truck1, truck1StartTime, packageData)
-        truckDeliverPackages(truck2, truck2StartTime, packageData)
-        truckDeliverPackages(truck3, truck3StartTime, packageData)
+            # Format total distance to be presented to user.
+            format_distance = "{:.2f}".format(totalDistance)
+            # Print total distance to user interface.
+            print(f'The total mileage traveled for all trucks is {format_distance} miles')
+            # Print all package information after trucks have run their routes.
+            packageData.printAll()
+            break
 
-        format_distance = "{:.2f}".format(totalDistance)
-        print(f'The total mileage traveled for all trucks is {format_distance} miles')
-        packageData.printAll()
+        case 2:
+            # Get time at which user would like to check package delivery status.
+            timeCheck = Helpers.getUserTime()
+            # Get ID of package and store in a variable
+            key = int(input("Please enter package ID: "))
 
-    case 2:
-        timeCheck = Helpers.getUserTime()
-        key = int(input("Please enter package ID: "))
-        truckDeliverPackages(truck1, truck1StartTime, packageData, timeCheck)
-        truckDeliverPackages(truck2, truck2StartTime, packageData, timeCheck)
-        truckDeliverPackages(truck3, truck3StartTime, packageData, timeCheck)
+            # Deliver the packages with a time constraint.
+            truckDeliverPackages(truck1, truck1StartTime, packageData, timeCheck)
+            truckDeliverPackages(truck2, truck2StartTime, packageData, timeCheck)
+            truckDeliverPackages(truck3, truck3StartTime, packageData, timeCheck)
 
-        package = packageData.get(key)
-        print(package)
+            # Store package information in a package variable.
+            package = packageData.get(key)
+            # Print package status information for user.
+            print(package)
+            break
 
-    case 3:
-        print("Case 3")
-    case 4:
-        print("Case 4")
-    case other:
-        print("No case")
+        case 3:
+            # Get time at which user would like to check package delivery status.
+            timeCheck = Helpers.getUserTime()
+
+            # Deliver the packages with a time constraint.
+            truckDeliverPackages(truck1, truck1StartTime, packageData, timeCheck)
+            truckDeliverPackages(truck2, truck2StartTime, packageData, timeCheck)
+            truckDeliverPackages(truck3, truck3StartTime, packageData, timeCheck)
+
+            # Print all package status information for user.
+            packageData.printAll()
+            break
+        case 4:
+            print("Goodbye!")
+            # Exit program.
+            sys.exit(0)
+        case other:
+            print("Please select from commands provided.")
+            continue
