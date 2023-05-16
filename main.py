@@ -12,10 +12,12 @@ packageData = loadPackageData("CSVFiles/PackageFile.csv")
 # Create a list of address data.
 addressData = loadAddressData("CSVFiles/DistanceFile.csv")
 
+# Create 3 instances of Truck
 truck1 = Truck("Truck 1")
 truck2 = Truck("Truck 2")
 truck3 = Truck("Truck 3")
 
+# Manually load packages onto each truck, while not exceeding truck package limit.
 truck1.loadTruck(packageData, [8, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22, 30, 34, 37, 39, 40])  # Will leave at 8:00AM.
 truck2.loadTruck(packageData, [1, 3, 5, 6, 7, 12, 18, 25, 28, 29, 31, 32, 36, 38])  # Will leave at 9:05AM.
 truck3.loadTruck(packageData, [10, 2, 4, 9, 23, 24, 26, 27, 33, 35])  # Will leave after first truck gets back.
