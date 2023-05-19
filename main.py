@@ -1,9 +1,9 @@
+# Name: Blake Ramsey. Student ID: 000425505
+
 import Helpers
 from Truck import Truck
-from Loaders import *
 from Helpers import *
 import datetime as dt
-from PackageHashMap import PackageHashMap
 
 # Create a list of distance data.
 distanceData = loadDistanceData("CSVFiles/DistanceFile.csv")

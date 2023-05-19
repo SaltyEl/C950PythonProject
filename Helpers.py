@@ -34,8 +34,7 @@ def nearestNeighbors(truck, distances, addresses):
 
     # For each package on the truck, add the packages associated address to the set.
     for package in packagesToDeliver:
-        address = getattr(package, 'address')
-        addressDeliverySet.add(address)
+        addressDeliverySet.add(package.address)
 
     # While addressDeliverySet is not empty, loop.
     while addressDeliverySet:
